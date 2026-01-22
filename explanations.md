@@ -1,4 +1,5 @@
 <!-- QUESTION 1 -->
+
 1. Why use Express package instead of Node.js Built-in without any dependencies?
 
 **What is Express?**
@@ -35,7 +36,38 @@ Express handles all the hard stuff automatically.
 3. Later, Socket.IO (for multiplayer) plugs directly into Express
 
 <!-- QUESTION 2 -->
+
 2. What is the difference between 'npx tsc index.ts' and 'npx ts-node index.ts'?
 
+**`npx tsc index.ts`** - Compiles TypeScript → JavaScript file, then you run it separately with `node index.js`
+
+**`npx ts-node index.ts`** - Compiles AND runs in one step (no .js file created)
+
+| Command   | Output                  | Use case            |
+| --------- | ----------------------- | ------------------- |
+| `tsc`     | Creates .js file        | Production builds   |
+| `ts-node` | Runs directly in memory | Development/testing |
+
 <!-- QUESTION 3 -->
+
 3. What is nodemon?
+
+**Nodemon** = "Node Monitor" - automatically restarts your server when you save file changes.
+
+**Without nodemon:**
+
+1. Edit code
+2. Stop server (Ctrl+C)
+3. Run `node index.js` again
+4. Repeat 100 times a day 😫
+
+**With nodemon:**
+
+1. Edit code
+2. Save → server auto-restarts ✅
+
+```bash
+nodemon index.js      # instead of: node index.js
+```
+
+It watches your files and restarts automatically - saves tons of time during development.
