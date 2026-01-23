@@ -71,3 +71,26 @@ nodemon index.js      # instead of: node index.js
 ```
 
 It watches your files and restarts automatically - saves tons of time during development.
+
+<!-- QUESTION 4  -->
+
+4. Why typescript doesn't recognize: const canvas = document.getElementById("canvas"); as HTMLCanvasElement?
+
+TypeScript only sees the method signature - it doesn't actually run your code to check what's in the HTML. It has no way to know that "canvas" refers to a <canvas> element vs a <div> or <span>.
+
+- You asked for an element by ID → could be any HTML element
+- Returns the most general type: HTMLElement | null
+- HTMLElement doesn't have getContext() - only HTMLCanvasElement does
+
+<!-- QUESTION 5 -->
+
+5. Script.ts file cannot be imported in index.html
+   Your HTML references script.js but you only have script.ts. Browsers can't run TypeScript directly - it needs to be compiled to JavaScript first.
+
+Compile the TypeScript:
+npx tsc public/script.ts
+
+Setup watcher:
+npx tsc public/script.ts --watch
+
+(Best solution) Install bundler like Vite or Webpack.
