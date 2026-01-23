@@ -159,3 +159,4 @@ canvas-multiplayer/
 1. Install Express
 2. Install npm install typescript @types/express @types/node --save-dev
 3. Install nodemon for live server updates.
+4. Create separate folders for server and client.

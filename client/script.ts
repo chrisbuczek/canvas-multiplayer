@@ -3,9 +3,12 @@ const ctx = canvas.getContext("2d");
 
 console.log("hello");
 
-while (true) {
+function gameLoop() {
   if (ctx) {
-    ctx.fillStyle = "red"; // Set color
-    ctx.fillRect(50, 50, 100, 100); // x, y, width, height
+    ctx.fillStyle = "red";
+    ctx.fillRect(50, 50, 100, 100);
   }
+  requestAnimationFrame(gameLoop);
 }
+
+gameLoop();
