@@ -1,30 +1,27 @@
 import inputManager from "./src/scripts/inputManager";
+import {
+  clampPlayerToCanvas,
+  createPlayer,
+  drawPlayer,
+  updatePlayerFromInput,
+} from "./src/scripts/player";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d");
 const keys = inputManager();
 
-const playerVelocity = 5;
-let playerPositionX = 50;
-let playerPositionY = 50;
+const player = createPlayer(50, 50);
+const player2 = createPlayer(400, 400, "green");
 function gameLoop() {
-  if (keys["ArrowLeft"] || keys["a"]) {
-    playerPositionX -= playerVelocity;
-  }
-  if (keys["ArrowRight"] || keys["d"]) {
-    playerPositionX += playerVelocity;
-  }
-  if (keys["ArrowUp"] || keys["w"]) {
-    playerPositionY -= playerVelocity;
-  }
-  if (keys["ArrowDown"] || keys["s"]) {
-    playerPositionY += playerVelocity;
-  }
+  updatePlayerFromInput(player, keys);
+  clampPlayerToCanvas(player, canvas);
+  updatePlayerFromInput(player2, keys);
+  clampPlayerToCanvas(player2, canvas);
 
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "red";
-    ctx.fillRect(playerPositionX, playerPositionY, 100, 100);
+    drawPlayer(ctx, player);
+    drawPlayer(ctx, player2);
   }
   requestAnimationFrame(gameLoop);
 }

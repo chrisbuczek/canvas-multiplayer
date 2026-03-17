@@ -1,8 +1,6 @@
 const keys: { [key: string]: boolean } = {};
-let isInitialized = false;
 
 const inputManager = () => {
-  // if (!isInitialized) {
   window.addEventListener("keydown", (e) => {
     keys[e.key] = true;
   });
@@ -10,9 +8,6 @@ const inputManager = () => {
   window.addEventListener("keyup", (e) => {
     keys[e.key] = false;
   });
-
-  // isInitialized = true;
-  // }
 
   return keys;
 };
