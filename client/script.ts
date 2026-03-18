@@ -10,18 +10,19 @@ const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d");
 const keys = inputManager();
 
-const player = createPlayer(50, 50);
-const player2 = createPlayer(400, 400, "green");
+const players = [createPlayer(50, 50)];
+
 function gameLoop() {
-  updatePlayerFromInput(player, keys);
-  clampPlayerToCanvas(player, canvas);
-  updatePlayerFromInput(player2, keys);
-  clampPlayerToCanvas(player2, canvas);
+  for (const player of players) {
+    updatePlayerFromInput(player, keys);
+    clampPlayerToCanvas(player, canvas);
+  }
 
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPlayer(ctx, player);
-    drawPlayer(ctx, player2);
+    for (const player of players) {
+      drawPlayer(ctx, player);
+    }
   }
   requestAnimationFrame(gameLoop);
 }

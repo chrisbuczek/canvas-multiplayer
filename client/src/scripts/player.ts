@@ -1,19 +1,23 @@
+import playerImage from "../assets/player.png";
+const img = new Image();
+img.src = playerImage;
+
 export type Player = {
   x: number;
   y: number;
   width: number;
   height: number;
   speed: number;
-  color: string;
+  health?: number;
 };
 
-export const createPlayer = (x = 50, y = 50, color = "red"): Player => ({
+export const createPlayer = (x = 50, y = 50, health = 100): Player => ({
   x,
   y,
   width: 100,
   height: 100,
   speed: 5,
-  color: color,
+  health: health,
 });
 
 export const updatePlayerFromInput = (
@@ -43,6 +47,5 @@ export const clampPlayerToCanvas = (
 };
 
 export const drawPlayer = (ctx: CanvasRenderingContext2D, player: Player) => {
-  ctx.fillStyle = player.color;
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+  ctx.drawImage(img, player.x, player.y, player.width, player.height);
 };

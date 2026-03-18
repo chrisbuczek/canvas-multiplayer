@@ -1,4 +1,5 @@
 const keys: { [key: string]: boolean } = {};
+//Record<string, boolean>
 
 const inputManager = () => {
   window.addEventListener("keydown", (e) => {
