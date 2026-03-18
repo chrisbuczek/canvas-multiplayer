@@ -1,8 +1,8 @@
 import playerImage from "../assets/player.png";
-const img = new Image();
+const img = new Image(); //equivalent to const img = document.createElement("img")
 img.src = playerImage;
 
-export type Player = {
+export type PlayerType = {
   x: number;
   y: number;
   width: number;
@@ -11,7 +11,7 @@ export type Player = {
   health?: number;
 };
 
-export const createPlayer = (x = 50, y = 50, health = 100): Player => ({
+export const createPlayer = (x = 50, y = 50, health = 100): PlayerType => ({
   x,
   y,
   width: 100,
@@ -21,7 +21,7 @@ export const createPlayer = (x = 50, y = 50, health = 100): Player => ({
 });
 
 export const updatePlayerFromInput = (
-  player: Player,
+  player: PlayerType,
   keys: Record<string, boolean>,
 ) => {
   if (keys["ArrowLeft"] || keys["a"]) {
@@ -39,13 +39,16 @@ export const updatePlayerFromInput = (
 };
 
 export const clampPlayerToCanvas = (
-  player: Player,
+  player: PlayerType,
   canvas: HTMLCanvasElement,
 ) => {
   player.x = Math.max(0, Math.min(player.x, canvas.width - player.width));
   player.y = Math.max(0, Math.min(player.y, canvas.height - player.height));
 };
 
-export const drawPlayer = (ctx: CanvasRenderingContext2D, player: Player) => {
+export const drawPlayer = (
+  ctx: CanvasRenderingContext2D,
+  player: PlayerType,
+) => {
   ctx.drawImage(img, player.x, player.y, player.width, player.height);
 };
