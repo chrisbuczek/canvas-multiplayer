@@ -1,4 +1,10 @@
-import { createGun, drawGun } from "./src/scripts/gun";
+import { drawBullet, BulletType } from "./src/scripts/bullet";
+import {
+  createGun,
+  drawGun,
+  tryPickupGun,
+  updateGunFromInput,
+} from "./src/scripts/gun";
 import inputManager from "./src/scripts/inputManager";
 import {
   clampPlayerToCanvas,
@@ -13,6 +19,7 @@ const keys = inputManager();
 
 const players = [createPlayer(50, 50)];
 const guns = [createGun(300, 300)];
+const bullets: BulletType[] = [];
 
 function gameLoop() {
   for (const player of players) {
@@ -20,8 +27,13 @@ function gameLoop() {
     clampPlayerToCanvas(player, canvas);
   }
   for (const gun of guns) {
-    updateGunFromInput(gun, keys);
+    const bullet = updateGunFromInput(gun, keys);
+    if (bullet) bullets.push(bullet);
+    for (const player of players) {
+      tryPickupGun(player, gun, keys);
+    }
   }
+  console.log("bullets", bullets);
 
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -30,6 +42,9 @@ function gameLoop() {
     }
     for (const gun of guns) {
       drawGun(ctx, gun);
+    }
+    for (const bullet of bullets) {
+      drawBullet(ctx, bullet);
     }
   }
   requestAnimationFrame(gameLoop);
