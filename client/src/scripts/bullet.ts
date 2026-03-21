@@ -1,4 +1,5 @@
 import { GunType } from "./gun";
+import { DirectionEnum } from "./types";
 
 export type BulletType = {
   x: number;
@@ -9,7 +10,7 @@ export type BulletType = {
   gun: GunType;
 };
 
-export const createBullet = (velocity = 100, gun): BulletType => ({
+export const createBullet = (velocity = 100, gun: GunType): BulletType => ({
   x: gun.owner.x + gun.offset + gun.width,
   y: gun.owner.y + gun.offset,
   width: 8,
@@ -17,6 +18,14 @@ export const createBullet = (velocity = 100, gun): BulletType => ({
   velocity: velocity,
   gun: gun,
 });
+
+export const updateBullet = (bullet: BulletType) => {
+  if (bullet.gun.direction == DirectionEnum.right) {
+    bullet.x += bullet.velocity;
+  } else {
+    bullet.x -= bullet.velocity;
+  }
+};
 
 export const drawBullet = (
   ctx: CanvasRenderingContext2D,

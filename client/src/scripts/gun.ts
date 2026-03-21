@@ -1,6 +1,7 @@
 import gunImage from "../assets/gun.png";
 import { BulletType, createBullet } from "./bullet";
 import { PlayerType } from "./player";
+import { DirectionEnum, DirectionEnumType } from "./types";
 import { isOverlapping } from "./utils";
 const img = new Image();
 img.src = gunImage;
@@ -14,6 +15,7 @@ export type GunType = {
   damage: number;
   owner?: PlayerType | null;
   offset: number;
+  direction: DirectionEnumType;
 };
 
 export const createGun = (
@@ -21,6 +23,7 @@ export const createGun = (
   y = 50,
   damage = 1,
   offset = 50,
+  direction = DirectionEnum.right,
 ): GunType => ({
   x,
   y,
@@ -28,6 +31,7 @@ export const createGun = (
   height: 30,
   damage: damage,
   offset: offset,
+  direction: direction,
 });
 
 export const updateGunFromInput = (
@@ -36,9 +40,6 @@ export const updateGunFromInput = (
 ): BulletType | null => {
   if (keys["Enter"] && gun.owner) {
     console.log("I'm in!");
-    //shoot gun - create bullet
-    // can I send events like in unity event system? gun knows player. bullet know gun. But what if gun wants to shoot a bullet
-    // createBullet()
     return createBullet(100, gun);
   }
   return null;
@@ -51,18 +52,32 @@ export const tryPickupGun = (
 ): void => {
   if (isOverlapping(player, gun) && keys["e"] && !gun.owner) {
     gun.owner = player;
+    gun.direction = player.direction;
   }
 };
 
 export const drawGun = (ctx: CanvasRenderingContext2D, gun: GunType) => {
   if (gun.owner) {
-    ctx.drawImage(
-      img,
-      gun.owner.x + gun.offset,
-      gun.owner.y + gun.offset,
-      gun.width,
-      gun.height,
-    );
+    if (gun.owner.direction === DirectionEnum.left) {
+      ctx.save(); // allows to only scale the gun.owner, not the whole canvas
+      ctx.scale(-1, 1);
+      ctx.drawImage(
+        img,
+        -gun.owner.x - gun.owner.width + gun.offset,
+        gun.owner.y + gun.offset,
+        gun.width,
+        gun.height,
+      );
+      ctx.restore();
+    } else {
+      ctx.drawImage(
+        img,
+        gun.owner.x + gun.offset,
+        gun.owner.y + gun.offset,
+        gun.width,
+        gun.height,
+      );
+    }
   } else {
     ctx.drawImage(img, gun.x, gun.y, gun.width, gun.height);
   }

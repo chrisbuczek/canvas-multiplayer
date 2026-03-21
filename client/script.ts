@@ -1,4 +1,4 @@
-import { drawBullet, BulletType } from "./src/scripts/bullet";
+import { drawBullet, BulletType, updateBullet } from "./src/scripts/bullet";
 import {
   createGun,
   drawGun,
@@ -33,9 +33,12 @@ function gameLoop() {
       tryPickupGun(player, gun, keys);
     }
   }
-  console.log("bullets", bullets);
+  for (const bullet of bullets) {
+    updateBullet(bullet);
+  }
 
   if (ctx) {
+    //render every array
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const player of players) {
       drawPlayer(ctx, player);
