@@ -16,6 +16,7 @@ export type GunType = {
   owner?: PlayerType | null;
   offset: number;
   direction: DirectionEnumType;
+  fireRate: number;
 };
 
 export const createGun = (
@@ -24,6 +25,7 @@ export const createGun = (
   damage = 1,
   offset = 50,
   direction = DirectionEnum.right,
+  fireRate = 100,
 ): GunType => ({
   x,
   y,
@@ -32,6 +34,7 @@ export const createGun = (
   damage: damage,
   offset: offset,
   direction: direction,
+  fireRate: fireRate,
 });
 
 export const updateGunFromInput = (
@@ -39,7 +42,7 @@ export const updateGunFromInput = (
   keys: Record<string, boolean>,
 ): BulletType | null => {
   if (keys["Enter"] && gun.owner) {
-    console.log("I'm in!");
+    //debounce ??
     return createBullet(100, gun);
   }
   return null;

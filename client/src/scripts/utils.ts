@@ -16,3 +16,26 @@ export const isOverlapping = (a: Rect, b: Rect): boolean => {
     a.y + a.height > b.y
   );
 };
+
+export const debounce = (fn: () => void, delay: number) => {
+  let timer: ReturnType<typeof setTimeout>;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(fn, delay);
+  };
+};
+
+export const debounceWithArgs = <T extends unknown[]>(
+  func: (...args: T) => void,
+  delay: number,
+) => {
+  let timeoutID: ReturnType<typeof setTimeout> | undefined = undefined;
+
+  return function (this: unknown, ...args: T) {
+    clearTimeout(timeoutID);
+    timeoutID = setTimeout(() => {
+      timeoutID = undefined;
+      func.apply(this, args);
+    }, delay);
+  };
+};
