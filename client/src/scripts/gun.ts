@@ -25,7 +25,7 @@ export const createGun = (
   damage = 1,
   offset = 50,
   direction = DirectionEnum.right,
-  fireRate = 100,
+  fireRate = 500,
 ): GunType => ({
   x,
   y,
@@ -37,15 +37,28 @@ export const createGun = (
   fireRate: fireRate,
 });
 
-export const updateGunFromInput = (
-  gun: GunType,
-  keys: Record<string, boolean>,
-): BulletType | null => {
-  if (keys["Enter"] && gun.owner) {
-    //debounce ??
-    return createBullet(100, gun);
-  }
-  return null;
+// export const updateGunFromInput = (
+//   gun: GunType,
+//   keys: Record<string, boolean>,
+// ): BulletType | null => {
+//   let lastShot = 0;
+//   if (keys["Enter"] && gun.owner && Date.now() - lastShot > gun.fireRate) {
+//     lastShot = Date.now();
+//     return createBullet(100, gun);
+//   }
+//   return null;
+// };
+
+export const createGunInputHandler = () => {
+  let lastShot = 0;
+
+  return (gun: GunType, keys: Record<string, boolean>) => {
+    if (keys["Enter"] && gun.owner && Date.now() - lastShot > gun.fireRate) {
+      lastShot = Date.now();
+      return createBullet(100, gun);
+    }
+    return null;
+  };
 };
 
 export const tryPickupGun = (
